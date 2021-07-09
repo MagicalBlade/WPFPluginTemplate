@@ -1,0 +1,14 @@
+F:\C#\Project\WPFPluginTemplate\WPFPluginTemplate\bin\Debug\WPFPluginTemplate.ail
+F:\C#\Project\WPFPluginTemplate\WPFPluginTemplate\bin\Debug\WPFPluginTemplate.dll
+F:\C#\Project\WPFPluginTemplate\WPFPluginTemplate\bin\Debug\WPFPluginTemplate.pdb
+F:\C#\Project\WPFPluginTemplate\ObjDir\2019\WPFPluginTemplate\MainWindow.g.cs
+F:\C#\Project\WPFPluginTemplate\ObjDir\2019\WPFPluginTemplate\WPFPluginTemplate_MarkupCompile.cache
+F:\C#\Project\WPFPluginTemplate\ObjDir\2019\WPFPluginTemplate\WPFPluginTemplate_MarkupCompile.lref
+F:\C#\Project\WPFPluginTemplate\ObjDir\2019\WPFPluginTemplate\MainWindow.baml
+F:\C#\Project\WPFPluginTemplate\ObjDir\2019\WPFPluginTemplate\WPFPluginTemplate.g.resources
+F:\C#\Project\WPFPluginTemplate\ObjDir\2019\WPFPluginTemplate\WPFPluginTemplate.Properties.Resources.resources
+F:\C#\Project\WPFPluginTemplate\ObjDir\2019\WPFPluginTemplate\WPFPluginTemplate.csproj.GenerateResource.cache
+F:\C#\Project\WPFPluginTemplate\ObjDir\2019\WPFPluginTemplate\WPFPluginTemplate.csproj.CoreCompileInputs.cache
+F:\C#\Project\WPFPluginTemplate\ObjDir\2019\WPFPluginTemplate\WPFPluginTemplate.dll
+F:\C#\Project\WPFPluginTemplate\ObjDir\2019\WPFPluginTemplate\WPFPluginTemplate.pdb
+F:\C#\Project\WPFPluginTemplate\ObjDir\2019\WPFPluginTemplate\WPFPluginTemplate.csproj.AssemblyReference.cache
