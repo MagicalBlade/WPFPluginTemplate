@@ -68,7 +68,7 @@ namespace WPFPluginTemplate
             PointList.Add(new InputDefinition(PickedPoints));
             PointList.Add(new InputDefinition(select.Identifier));
             ArrayList points = (ArrayList)PointList[0].GetInput();
-            MessageBox.Show(points[0].ToString());
+            //MessageBox.Show(points[0].ToString());
             return PointList;
         }
 
@@ -93,35 +93,6 @@ namespace WPFPluginTemplate
                 //Задаем свойства нашей детали-разделки
                 beam.StartPoint = new TSG.Point(points[0] as TSG.Point);
                 beam.EndPoint = new TSG.Point(points[1] as TSG.Point);
-
-
-
-
-                //Просматриваем грани детали в поисках той что прилегает в фаске. Находи ее высоту.
-                //Double WIDTH_Z = WIDTH;
-                //ISolid solid = beam1.GetSolid();
-                //EdgeEnumerator edgeEnumerator = solid.GetEdgeEnumerator();
-                //MessageBox.Show(beam1.Position.DepthOffset.ToString());
-                //Int32 WIDTH_M = 0;
-                //if (beam1.Position.Depth == TSM.Position.DepthEnum.MIDDLE)
-                //{
-                //    WIDTH_M = (int)(WIDTH / 2);
-                //}
-                //while (edgeEnumerator.MoveNext())
-                //{
-                //    var edge = edgeEnumerator.Current as Edge;
-                //    if (edge != null)
-                //    {
-                //        //MessageBox.Show(edge.StartPoint.ToString() + "--" + edge.EndPoint.ToString());
-                //        if ((int)(edge.StartPoint.X + edge.EndPoint.X) == 0 && (int)(edge.StartPoint.Y + edge.EndPoint.Y) == 0  && (Math.Abs((int)edge.StartPoint.Z) == beam1.Position.DepthOffset || Math.Abs((int)edge.EndPoint.Z) == beam1.Position.DepthOffset))
-                //        {
-                //            MessageBox.Show(edge.StartPoint.ToString() + "--" + edge.EndPoint.ToString());
-                //            WIDTH_Z = edge.EndPoint.Z + edge.StartPoint.Z - 2*beam1.Position.DepthOffset; //нашли высоту нужной грани (фактическая толщина торца на котором находится разделка)
-                //            //MessageBox.Show("WIDTH_Z=" + WIDTH_Z.ToString() + "--" + (int)edge.StartPoint.Z);
-                //        }
-                //    }
-                //}
-
 
                 beam.Position.Plane = TSM.Position.PlaneEnum.LEFT;
                 beam.Position.Depth = beam1.Position.Depth;
