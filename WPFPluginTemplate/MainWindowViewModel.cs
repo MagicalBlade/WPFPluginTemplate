@@ -16,8 +16,10 @@ namespace WPFPluginTemplate
         private double h2 = 2.0;
         private double a1 = 45.0;
         private int l1 = 0;
+        private int l2 = 0;
         private int s1 = 0;
-
+        private double h1_transition = 250.0;
+        private double l1_transition = 250.0;
 
         //Свойства. Магия получения входных данных.
         [StructuresDialog("parametrh1",typeof(TD.Double))]
@@ -62,6 +64,16 @@ namespace WPFPluginTemplate
                 OnPropertyChanged("L1");
             }
         }
+        [StructuresDialog("list2", typeof(TD.Integer))]
+        public int L2
+        {
+            get => l2;
+            set
+            {
+                l2 = value;
+                OnPropertyChanged("L2");
+            }
+        }
         [StructuresDialog("parametrs1", typeof(TD.Integer))]
         public int S1
         {
@@ -70,6 +82,28 @@ namespace WPFPluginTemplate
             {
                 s1 = value;
                 OnPropertyChanged("S1");
+            }
+        }
+        [StructuresDialog("ph1_transition", typeof(TD.Double))]
+
+        public double H1_transition
+        {
+            get => h1_transition;
+            set
+            {
+                h1_transition = value;
+                OnPropertyChanged("H1_transition");
+            }
+        }
+        [StructuresDialog("pl1_transition", typeof(TD.Double))]
+
+        public double L1_transition
+        {
+            get => l1_transition;
+            set
+            {
+                l1_transition = value;
+                OnPropertyChanged("L1_transition");
             }
         }
 

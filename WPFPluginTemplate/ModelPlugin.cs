@@ -5,13 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using TSG = Tekla.Structures.Geometry3d;
 using TSM = Tekla.Structures.Model;
-using Tekla.Structures.Model.Operations;
+using Tekla.Structures.Dialog;
 using Tekla.Structures.Model.UI;
 using Tekla.Structures.Plugins;
 using System.Collections;
 using System.Windows;
 using Tekla.Structures.Catalogs;
-using Tekla.Structures.Solid;
 
 namespace WPFPluginTemplate
 {
@@ -24,10 +23,15 @@ namespace WPFPluginTemplate
         [StructuresField("anglea1")]
         public double a1;
         [StructuresField("list1")]
-        public int  l1;
+        public int l1;
+        [StructuresField("list2")]
+        public int l2;
         [StructuresField("parametrs1")]
         public int s1;
-        
+        [StructuresField("ph1_transition")]
+        public double h1_transition;
+        [StructuresField("pl1_transition")]
+        public double l1_transition;
 
     }
     [Plugin("WPFPluginTemplate")]
@@ -40,19 +44,21 @@ namespace WPFPluginTemplate
         private double _h2 = 2.0;
         private double _a1 = 45.0;
         private int _l1 = 0;
+        private int _l2 = 0;
         private int _s1 = 0;
+        private double _h1_transition = 100.0;
+        private double _l1_transition = 100.0;
 
         private TSM.Model _Model;
         private PluginData _Data;
 
         private TSM.Model Model { get => _Model; set => _Model = value; }
         private PluginData Data { get => _Data; set => _Data = value; }
-
+        
         public WPFPluginTemplite(PluginData data)
         {
             Model = new TSM.Model();
             Data = data;
-
         }
 
         public override List<InputDefinition> DefineInput()
@@ -73,52 +79,62 @@ namespace WPFPluginTemplate
         }
 
 
-
-        public override bool  Run (List<InputDefinition> Input)
+        public override bool Run (List<InputDefinition> Input)
         {
             try
             {
                 GetValueFromDialog();
                 //System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-                TSM.Beam beam = new TSM.Beam();
                 ArrayList points = (ArrayList)Input[0].GetInput();
                 //Магия. Выделенную деталь передаем сюда через идентификатор.
-                TSM.Part beam1 = (TSM.Part)_Model.SelectModelObject((Tekla.Structures.Identifier)Input[1].GetInput());
+                TSM.Part beam_select = (TSM.Part)_Model.SelectModelObject((Tekla.Structures.Identifier)Input[1].GetInput());
                 Double WIDTH = 0.0;
                 //Получение свойств выделенной детали. В данном случае толщину
-                beam1.GetReportProperty("WIDTH", ref WIDTH);
+                beam_select.GetReportProperty("WIDTH", ref WIDTH);
                 //Создаем массив из будущих разделок
                 string[] faska = new string[] {$"MHP{_h1}*{_a1}*{(int)WIDTH}",$"RT{_h2}*{_h1}*{_a1}*{(int)WIDTH}", $"RT0.01*{_h1}*{_a1}*{(int)WIDTH}" };
-                beam.Profile.ProfileString = faska[_l1];
-                //Задаем свойства нашей детали-разделки
-                beam.StartPoint = new TSG.Point(points[0] as TSG.Point);
-                beam.EndPoint = new TSG.Point(points[1] as TSG.Point);
-
-                beam.Position.Plane = TSM.Position.PlaneEnum.LEFT;
-                beam.Position.Depth = beam1.Position.Depth;
-                //beam.Position.DepthOffset = beam1.Position.DepthOffset + (Math.Abs(WIDTH_Z) - Math.Abs(WIDTH))/2; //изменяем глубину если есть переход на детали
-                beam.Position.DepthOffset = beam1.Position.DepthOffset;
-                beam.StartPointOffset.Dx = -_s1;
-                beam.EndPointOffset.Dx = _s1;
-                beam.Name = "MHP";
-                beam.Material.MaterialString = "C245";
+                //Создаем нашу деталь разделку
+                int[] beam_behind = {1, 1, -1};
+                double[,] offset_beam = 
+                    { 
+                    {beam_select.Position.DepthOffset, beam_select.Position.DepthOffset, beam_select.Position.DepthOffset + beam_behind[(int)beam_select.Position.Depth] * _h1_transition, beam_select.Position.DepthOffset + beam_behind[(int)beam_select.Position.Depth] * _h1_transition },
+                    {beam_select.Position.DepthOffset, beam_select.Position.DepthOffset - beam_behind[(int)beam_select.Position.Depth] * 0.5 * _h1_transition, beam_select.Position.DepthOffset, beam_select.Position.DepthOffset + beam_behind[(int)beam_select.Position.Depth] * 0.5 * _h1_transition},
+                    {beam_select.Position.DepthOffset, beam_select.Position.DepthOffset - beam_behind[(int)beam_select.Position.Depth] * 0.5 * _h1_transition, beam_select.Position.DepthOffset, beam_select.Position.DepthOffset + beam_behind[(int)beam_select.Position.Depth] * 0.5 * _h1_transition}
+                    };
+                Beam beam = new Beam(points[0] as TSG.Point, points[1] as TSG.Point, faska[_l1], _s1, beam_select.Position.Depth, offset_beam[_l1, _l2]);
+                if (!beam.beam.Insert())
+                {
+                    MessageBox.Show("Вы не импортировали профили разделок: MHP,");
+                    return false;
+                }
                 beam.Insert();
+                double[] offset_up = { -beam_select.Position.DepthOffset - WIDTH * 0.5, -beam_select.Position.DepthOffset - WIDTH, beam_select.Position.DepthOffset};
+                double[] offset_down = { -beam_select.Position.DepthOffset + WIDTH * 0.5, -beam_select.Position.DepthOffset, beam_select.Position.DepthOffset - -WIDTH };
 
-
-
-
-                //Вырезаем одну деталь из другой
-                beam.Class = TSM.BooleanPart.BooleanOperativeClassName;
-                TSM.BooleanPart Beam1 = new TSM.BooleanPart();
-                Beam1.Father = beam1;
-                Beam1.SetOperativePart(beam);
-                if (!Beam1.Insert())
-                    Console.WriteLine("Insert failed!");
-
-                beam.Delete();  //удаляем разделку, оставляя только вырез
-
-                
-
+                if (_l2 == 1)
+                {
+                    Beam beam_transition = new Beam(points[1] as TSG.Point, points[0] as TSG.Point, $"TRI_A{_h1_transition}-{_l1_transition}", _s1, TSM.Position.DepthEnum.BEHIND, offset_up[(int)beam_select.Position.Depth], TSM.Position.PlaneEnum.RIGHT);
+                    beam_transition.Insert();
+                    BooleanPart beam_transition_boolean = new BooleanPart(beam_transition, beam_select);
+                }
+                else if(_l2 == 2)
+                {
+                    Beam beam_transition = new Beam(points[1] as TSG.Point, points[0] as TSG.Point, $"TRI_A{_h1_transition}-{_l1_transition}", _s1, TSM.Position.DepthEnum.BEHIND, offset_up[(int)beam_select.Position.Depth], TSM.Position.PlaneEnum.RIGHT);
+                    beam_transition.Insert();
+                    BooleanPart beam_transition_boolean = new BooleanPart(beam_transition, beam_select);
+                    Beam beam_transition_down = new Beam(points[0] as TSG.Point, points[1] as TSG.Point, $"TRI_A{_h1_transition}-{_l1_transition}", _s1, TSM.Position.DepthEnum.FRONT, -offset_down[(int)beam_select.Position.Depth], TSM.Position.PlaneEnum.LEFT);
+                    beam_transition_down.beam.Position.Rotation = TSM.Position.RotationEnum.BELOW;
+                    beam_transition_down.Insert();
+                    BooleanPart beam_transition_boolean_down = new BooleanPart(beam_transition_down, beam_select);
+                }
+                else if (_l2 == 3)
+                {
+                    Beam beam_transition_down = new Beam(points[0] as TSG.Point, points[1] as TSG.Point, $"TRI_A{_h1_transition}-{_l1_transition}", _s1, TSM.Position.DepthEnum.FRONT, -offset_down[(int)beam_select.Position.Depth], TSM.Position.PlaneEnum.LEFT);
+                    beam_transition_down.beam.Position.Rotation = TSM.Position.RotationEnum.BELOW;
+                    beam_transition_down.Insert();
+                    BooleanPart beam_transition_boolean_down = new BooleanPart(beam_transition_down, beam_select);
+                }
+                BooleanPart beam_boolean = new BooleanPart(beam, beam_select);
             }
             catch (Exception Exc)
             {
@@ -132,18 +148,35 @@ namespace WPFPluginTemplate
             _h1 = Data.h1;
             if (IsDefaultValue(_h1))
                 _h1 = 200.0;
+
             _h2 = Data.h2;
             if (IsDefaultValue(_h2))
                 _h2 = 2.0;
+
             _a1 = Data.a1;
             if (IsDefaultValue(_a1))
                 _a1 = 45.0;
+
             _l1 = Data.l1;
             if (IsDefaultValue(_l1))
                 _l1 = 0;
+
+            _l2 = Data.l2;
+            if (IsDefaultValue(_l2))
+                _l2 = 0;
+
             _s1 = Data.s1;
             if (IsDefaultValue(_s1))
                 _s1 = 0;
+
+            _h1_transition = Data.h1_transition;
+            if (IsDefaultValue(_h1_transition))
+                _h1_transition = 200.0;
+
+            _l1_transition = Data.l1_transition;
+            if (IsDefaultValue(_l1_transition))
+                _l1_transition = 200.0;
+
         }
     }
 }

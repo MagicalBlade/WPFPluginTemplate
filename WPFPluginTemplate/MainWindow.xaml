@@ -15,39 +15,99 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="70" MaxHeight="70"></RowDefinition>
         </Grid.RowDefinitions>
-
         <UIControls:WpfOkApplyModifyGetOnOffCancel Grid.Row="2" Margin="10,0,10,10" ApplyClicked="WpfOkApplyModifyGetOnOffCancel_ApplyClicked" CancelClicked="WpfOkApplyModifyGetOnOffCancel_CancelClicked" GetClicked="WpfOkApplyModifyGetOnOffCancel_GetClicked" ModifyClicked="WpfOkApplyModifyGetOnOffCancel_ModifyClicked" OkClicked="WpfOkApplyModifyGetOnOffCancel_OkClicked" OnOffClicked="WpfOkApplyModifyGetOnOffCancel_OnOffClicked" VerticalAlignment="Bottom"/>
         <UIControls:WpfSaveLoad Grid.Row="0" Height="51" Margin="10,10,0,0" VerticalAlignment="Top" Width="740" Grid.ColumnSpan="2"/>
-        <TextBox Grid.Row="1" HorizontalAlignment="Left" Height="23" Margin="410,67,0,0" TextWrapping="Wrap" Text="{Binding H1}" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="zazor" Grid.Row="1" HorizontalAlignment="Left" Height="23" Margin="410,105,0,0" TextWrapping="Wrap" Text="{Binding H2}" VerticalAlignment="Top" Width="120"/>
-        <TextBox Grid.Row="1" HorizontalAlignment="Left" Height="23" Margin="410,28,0,0" TextWrapping="Wrap" Text="{Binding A1}" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Притупление h1" HorizontalAlignment="Left" Margin="273,64,0,0" Grid.Row="1" VerticalAlignment="Top" Width="110"/>
-        <Label Content="Зазор h2" HorizontalAlignment="Left" Margin="273,102,0,0" Grid.Row="1" VerticalAlignment="Top" Width="110"/>
-        <Label Content="Угол a1" HorizontalAlignment="Left" Margin="273,25,0,0" Grid.Row="1" VerticalAlignment="Top" Width="110"/>
-        <UIControls:WpfFilterCheckBox AttributeName="parametrh1" Content="" HorizontalAlignment="Left" Margin="388,67,0,0" Grid.Row="1" VerticalAlignment="Top" Height="23" Width="17"/>
-        <UIControls:WpfFilterCheckBox AttributeName="parametrh2" Content="" HorizontalAlignment="Left" Margin="388,105,0,0" Grid.Row="1" VerticalAlignment="Top" Height="23" Width="17"/>
-        <UIControls:WpfFilterCheckBox AttributeName="anglea1" Content="" HorizontalAlignment="Left" Margin="388,25,0,0" Grid.Row="1" VerticalAlignment="Top" Height="23" Width="17"/>
-        <UIControls:WpfFilterCheckBox AttributeName="list1" Content="" HorizontalAlignment="Left" Margin="81,62,0,0" Grid.Row="1" VerticalAlignment="Top" Height="23" Width="17"/>
+        <TabControl Grid.Row="1">
+            <TabItem Header="Разделка">
+                <Grid>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="410,67,0,0" TextWrapping="Wrap" Text="{Binding H1}" VerticalAlignment="Top" Width="120"/>
+                    <TextBox x:Name="zazor" HorizontalAlignment="Left" Height="23" Margin="410,105,0,0" TextWrapping="Wrap" Text="{Binding H2}" VerticalAlignment="Top" Width="120"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="410,28,0,0" TextWrapping="Wrap" Text="{Binding A1}" VerticalAlignment="Top" Width="120"/>
+                    <Label Content="Притупление h1" HorizontalAlignment="Left" Margin="273,64,0,0" VerticalAlignment="Top" Width="110"/>
+                    <Label Content="Зазор h2" HorizontalAlignment="Left" Margin="273,102,0,0" VerticalAlignment="Top" Width="110"/>
+                    <Label Content="Угол a1" HorizontalAlignment="Left" Margin="273,25,0,0" VerticalAlignment="Top" Width="110"/>
+                    <UIControls:WpfFilterCheckBox AttributeName="parametrh1" Content="" HorizontalAlignment="Left" Margin="388,67,0,0" VerticalAlignment="Top" Height="23" Width="17"/>
+                    <UIControls:WpfFilterCheckBox AttributeName="parametrh2" Content="" HorizontalAlignment="Left" Margin="388,105,0,0" VerticalAlignment="Top" Height="23" Width="17"/>
+                    <UIControls:WpfFilterCheckBox AttributeName="anglea1" Content="" HorizontalAlignment="Left" Margin="388,25,0,0" VerticalAlignment="Top" Height="23" Width="17"/>
+                    <UIControls:WpfFilterCheckBox AttributeName="list1" Content="" HorizontalAlignment="Left" Margin="81,62,0,0" VerticalAlignment="Top" Height="23" Width="17"/>
+                    <ComboBox x:Name="faska" HorizontalAlignment="Left" Margin="103,62,0,0" SelectedIndex="{Binding L1}" VerticalAlignment="Top" Width="90" Height="85" SelectionChanged="ComboBox_SelectionChanged">
+                        <ComboBoxItem IsSelected="True">
+                            <StackPanel>
+                                <Image Width="85" Height="80" HorizontalAlignment="Left" VerticalAlignment="Top" Source="MHP.png"/>
+                            </StackPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem IsSelected="True">
+                            <StackPanel>
+                                <Image Width="85" Height="80" HorizontalAlignment="Left" VerticalAlignment="Top" Source="RKZ.png" />
+                            </StackPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem IsSelected="True">
+                            <StackPanel>
+                                <Image Width="85" Height="80" HorizontalAlignment="Left" VerticalAlignment="Top" Source="RT0.01.png" />
+                            </StackPanel>
+                        </ComboBoxItem>
+                    </ComboBox>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="410,145,0,0" TextWrapping="Wrap" Text="{Binding S1}" VerticalAlignment="Top" Width="120"/>
+                    <Label Content="Увеличение&#xD;&#xA;длины разделки" HorizontalAlignment="Left" Margin="273,142,0,0" VerticalAlignment="Top" Width="110"/>
+                    <UIControls:WpfFilterCheckBox AttributeName="parametrs1" Content="" HorizontalAlignment="Left" Margin="388,145,0,0" VerticalAlignment="Top" Height="23" Width="17"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Переход">
+                <Grid Margin="-1,0,1,0">
+                    <TextBox x:Name="H1_transition" HorizontalAlignment="Left" Height="26" Margin="248,70,0,0" TextWrapping="Wrap" Text="{Binding H1_transition}" VerticalAlignment="Top" Width="40"/>
+                    <UIControls:WpfFilterCheckBox AttributeName="ph1_transition" Margin="227,75,511,89" VerticalAlignment="Center" HorizontalAlignment="Center" Width="16" Height="16" />
+                    <ComboBox Name="transition" HorizontalAlignment="Left" Margin="70,62.5,0,0" SelectedIndex="{Binding L2}" VerticalAlignment="Top" Width="115" Height="95" SelectionChanged="transition_SelectionChanged">
+                        <Canvas Width="95" Height="90" Background="White" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top">
+                            <Polygon Stroke="Black" Points="15,15 80,15 80,80 15,80" Fill="#FFFFCC66"></Polygon>
+                        </Canvas>
+                        <Canvas Width="95" Height="90" Background="White" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top">
+                            <Polygon Stroke="Black" Points="15,15 50,15 80,25 80,80 15,80" Fill="#FFFFCC66"></Polygon>
+                            <Line X1="50" Y1="15" X2="50" Y2="0" Stroke="Black" />
+                            <Line X1="80" Y1="25" X2="80" Y2="0" Stroke="Black" />
+                            <Line X1="50" Y1="15" X2="95" Y2="15" Stroke="Black" />
+                            <Line X1="80" Y1="25" X2="95" Y2="25" Stroke="Black" />
+                        </Canvas>
+                        <Canvas Width="95" Height="90" Background="White" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top">
+                            <Polygon Stroke="Black" Points="15,15 50,15 80,25 80,70 50,80 15,80" Fill="#FFFFCC66"></Polygon>
+                            <Line X1="50" Y1="80" X2="50" Y2="0" Stroke="Black" />
+                            <Line X1="80" Y1="70" X2="80" Y2="0" Stroke="Black" />
+                            <Line X1="50" Y1="15" X2="95" Y2="15" Stroke="Black" />
+                            <Line X1="80" Y1="25" X2="95" Y2="25" Stroke="Black" />
+                            <Line X1="50" Y1="80" X2="95" Y2="80" Stroke="Black" />
+                            <Line X1="80" Y1="70" X2="95" Y2="70" Stroke="Black" />
+                        </Canvas>
+                        <Canvas Width="95" Height="90" Background="White" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top">
+                            <Polygon Stroke="Black" Points="15,15 80,15 80,70 50,80 15,80" Fill="#FFFFCC66"></Polygon>
+                            <Line X1="50" Y1="80" X2="50" Y2="0" Stroke="Black" />
+                            <Line X1="80" Y1="70" X2="80" Y2="0" Stroke="Black" />
+                            <Line X1="50" Y1="80" X2="95" Y2="80" Stroke="Black" />
+                            <Line X1="80" Y1="70" X2="95" Y2="70" Stroke="Black" />
+                        </Canvas>
+                    </ComboBox>
+                    <Canvas>
+                        <Line X1="125" Y1="62" X2="125" Y2="32" Stroke="Black" />
+                        <Line X1="155" Y1="62" X2="155" Y2="32" Stroke="Black" />
+                        <Line X1="115" Y1="42" X2="250" Y2="42" Stroke="Black" />
+                        <Line X1="118" Y1="49" X2="132" Y2="35" Stroke="Black" />
+                        <Line X1="148" Y1="49" X2="162" Y2="35" Stroke="Black" />
+                        <Line X1="190" Y1="79" X2="220" Y2="79" Stroke="Black" />
+                        <Line X1="190" Y1="89" X2="220" Y2="89" Stroke="Black" />
+                        <Line X1="210" Y1="64" X2="210" Y2="104" Stroke="Black" />
+                        <Line X1="203" Y1="72" X2="217" Y2="86" Stroke="Black" />
+                        <Line X1="203" Y1="82" X2="217" Y2="96" Stroke="Black" />
+                        <Line X1="190" Y1="144" X2="220" Y2="144" Stroke="Black" />
+                        <Line X1="190" Y1="134" X2="220" Y2="134" Stroke="Black" />
+                        <Line X1="210" Y1="119" X2="210" Y2="159" Stroke="Black" />
+                        <Line X1="203" Y1="130" X2="217" Y2="141" Stroke="Black" />
+                        <Line X1="203" Y1="137" X2="217" Y2="151" Stroke="Black" />
+                        <Line X1="210" Y1="119" X2="240" Y2="100" Stroke="Black" />
+                        <Line X1="240" Y1="100" X2="290" Y2="100" Stroke="Black" />
+                        <TextBox x:Name="L1_transition" HorizontalAlignment="Left" Height="26" TextWrapping="Wrap" Text="{Binding L1_transition}" VerticalAlignment="Top" Width="40" Canvas.Left="198" Canvas.Top="5"/>
+                        <UIControls:WpfFilterCheckBox AttributeName="pl1_transition" VerticalAlignment="Center" HorizontalAlignment="Center" Width="16" Height="16" Canvas.Left="177" Canvas.Top="10" />
 
-        <ComboBox x:Name="faska" HorizontalAlignment="Left" Margin="103,62,0,0" SelectedIndex="{Binding L1}" Grid.Row="1" VerticalAlignment="Top" Width="90" Height="80" SelectionChanged="ComboBox_SelectionChanged">
-            <ComboBoxItem IsSelected="True">
-                <StackPanel>
-                    <Image Width="85" Height="80" HorizontalAlignment="Left" VerticalAlignment="Top" Source="MHP.png"/>
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem IsSelected="True">
-                <StackPanel>
-                    <Image Width="85" Height="80" HorizontalAlignment="Left" VerticalAlignment="Top" Source="RKZ.png" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem IsSelected="True">
-                <StackPanel>
-                    <Image Width="85" Height="80" HorizontalAlignment="Left" VerticalAlignment="Top" Source="RT0.01.png" />
-                </StackPanel>
-            </ComboBoxItem>
-        </ComboBox>
-        <TextBox Grid.Row="1" HorizontalAlignment="Left" Height="23" Margin="410,145,0,0" TextWrapping="Wrap" Text="{Binding S1}" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Увеличение&#xD;&#xA;длинны разделки" HorizontalAlignment="Left" Margin="273,142,0,0" Grid.Row="1" VerticalAlignment="Top" Width="110"/>
-        <UIControls:WpfFilterCheckBox AttributeName="parametrs1" Content="" HorizontalAlignment="Left" Margin="388,145,0,0" Grid.Row="1" VerticalAlignment="Top" Height="23" Width="17"/>
+                    </Canvas>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </tsd:PluginWindowBase>

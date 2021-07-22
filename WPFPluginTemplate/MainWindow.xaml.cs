@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Tekla.Structures.Dialog;
+using Tekla.Structures.Catalogs;
 
 namespace WPFPluginTemplate
 {
@@ -21,12 +22,13 @@ namespace WPFPluginTemplate
     public partial class MainWindow : PluginWindowBase
     {
         public MainWindowViewModel dataModel;
+        
         public MainWindow(MainWindowViewModel DataModel)
         {
             InitializeComponent();
             dataModel = DataModel;
         }
-
+        
         private void WpfOkApplyModifyGetOnOffCancel_ApplyClicked(object sender, EventArgs e)
         {
             this.Apply();
@@ -61,15 +63,28 @@ namespace WPFPluginTemplate
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (this.faska.SelectedIndex==1)
+            if (faska.SelectedIndex == 1)
             {
-                this.zazor.IsEnabled = true;
+                zazor.IsEnabled = true;
             }
             else
             {
-                this.zazor.IsEnabled = false;
+                zazor.IsEnabled = false;
             }
-            
+        }
+
+        private void transition_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (transition.SelectedIndex == 0)
+            {
+                H1_transition.IsEnabled = false;
+                L1_transition.IsEnabled = false;
+            }
+            else
+            {
+                H1_transition.IsEnabled = true;
+                L1_transition.IsEnabled = true;
+            }
         }
     }
 }

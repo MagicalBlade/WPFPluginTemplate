@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -87,6 +88,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Beam.cs" />
+    <Compile Include="BooleanPart.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -138,6 +141,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="RT0.01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="transition_two.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="transition_up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="transition_down.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
